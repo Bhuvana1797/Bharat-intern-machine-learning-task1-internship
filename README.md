@@ -6,14 +6,15 @@ The project includes the following steps:
 3.Model Building and Evaluation
 4.Residuals Analysis
 
-Data LoadingThe dataset is loaded from Google Drive using Google Colab:from google.colab import drive
+#Data LoadingThe dataset is loaded from Google Drive using Google Colab:
+from google.colab import drive
 drive.mount('/content/drive')
 
 import pandas as pd
 df = pd.read_csv('/content/drive/MyDrive/HousePricePrediction (2).csv')
 
-Exploratory Data Analysis (EDA)Distribution of Sale Prices:
-i am visualising the distribution of house sale prices using a histogram with a Kernel Density Estimate (KDE) to understand the price distribution:
+#Exploratory Data Analysis (EDA)Distribution of Sale Prices:
+#i am visualising the distribution of house sale prices using a histogram with a Kernel Density Estimate (KDE) to understand the price distribution:
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -24,33 +25,33 @@ plt.xlabel('SalePrice')
 plt.ylabel('Frequency')
 plt.show()
 
-Feature Correlations:
-A heatmap is created to visualize the correlations between numeric features in the dataset:
+#Feature Correlations:
+#A heatmap is created to visualize the correlations between numeric features in the dataset:
 df_numeric = df.select_dtypes(include=['number'])
 plt.figure(figsize=(12, 8))
 sns.heatmap(df_numeric.corr(), annot=True, cmap='coolwarm')
 plt.title('Feature Correlations')
 plt.show()
 
-Feature Engineering:
-A new feature, HouseAge, is added based on the difference between the year of remodeling and the year the house was built:
+#Feature Engineering:
+#A new feature, HouseAge, is added based on the difference between the year of remodeling and the year the house was built:
 df['HouseAge'] = df['YearRemodAdd'] - df['YearBuilt']
 
-Handling Missing Values:
-Missing values are handled using forward fill. This is a basic imputation strategy:
+#Handling Missing Values:
+#Missing values are handled using forward fill. This is a basic imputation strategy:
 df.fillna(method='ffill', inplace=True)
 
-Data Preprocessing:
-Separating Features and Target:
-i am defining numeric and categorical features and prepare the feature matrix X and target vector y:
+#Data Preprocessing:
+#Separating Features and Target:
+#i am defining numeric and categorical features and prepare the feature matrix X and target vector y:
 numeric_features = ['LotArea', 'OverallCond', 'TotalBsmtSF', 'HouseAge']
 categorical_features = ['MSZoning', 'LotConfig', 'BldgType', 'Exterior1st']
 
 X = df.drop(columns=['Id', 'SalePrice', 'YearBuilt', 'YearRemodAdd'])
 y = df['SalePrice']
 
-Preprocessing Pipeline
-I will set up a pipeline to standardize numeric features and one-hot encode categorical features:
+#Preprocessing Pipeline
+#I will set up a pipeline to standardize numeric features and one-hot encode categorical features:
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
@@ -60,9 +61,9 @@ preprocessor = ColumnTransformer(
         ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), categorical_features)
     ])
 
-Model Building and Evaluation:
-Random Forest Regressor
-i will use a Random Forest Regressor and optimize hyperparameters with RandomizedSearchCV:
+#Model Building and Evaluation:
+#Random Forest Regressor
+#i will use a Random Forest Regressor and optimize hyperparameters with RandomizedSearchCV:
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import RandomizedSearchCV
 
@@ -84,8 +85,8 @@ rf_pred = rf_best.predict(X_test)
 rf_mse = mean_squared_error(y_test, rf_pred)
 print(f"Optimized Random Forest MSE: {rf_mse}")
 
-Deep Learning Model:
-A Neural Network model is built using TensorFlow with layers for Dense, BatchNormalization, and Dropout:
+#Deep Learning Model:
+#A Neural Network model is built using TensorFlow with layers for Dense, BatchNormalization, and Dropout:
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, BatchNormalization
@@ -105,8 +106,8 @@ tf_pred = tf_model.predict(X_test_processed)
 tf_mse = mean_squared_error(y_test, tf_pred)
 print(f"TensorFlow Neural Network MSE: {tf_mse}")
 
-Residuals Analysis:
-Residual plots are created to compare the performance of the Random Forest and TensorFlow models:
+#Residuals Analysis:
+#Residual plots are created to compare the performance of the Random Forest and TensorFlow models:
 plt.figure(figsize=(6, 6))
 plt.scatter(y_test, rf_pred - y_test, label='Random Forest Residuals')
 plt.scatter(y_test, tf_pred.flatten() - y_test, label='TensorFlow Residuals', alpha=0.6)
@@ -117,10 +118,10 @@ plt.ylabel('Residuals')
 plt.legend()
 plt.show()
 
-Conclusion:
+#Conclusion:
 This project demonstrates the use of both traditional machine learning and deep learning techniques for predicting house prices. By comparing model performance through residuals analysis, i can assess the effectiveness of each approach.
 
-Requirements:
+#Requirements:
 1.Python 
 2.TensorFlow
 3.scikit-learn
@@ -129,7 +130,7 @@ Requirements:
 6.seaborn
 7.matplotlib
 
-Running the Code
+#Running the Code
 Loading and Preprocessing Data: Update the dataset path and preprocess the data.
 Training the Models: Fit and evaluate Random Forest and Neural Network models.
 Analysing the Results: Reviewing the residuals to compare model performance.
